@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Crypto Tracker</h1>
+    </header>
+    <main>
+        <!-- Cryptocurrency Listing -->
+        <section id="crypto-list">
+            <h2>Cryptocurrency Listing</h2>
+            <div id="preferences">
+                <label for="sort">Sort by:</label>
+                <select id="sort">
+                    <option value="market_cap">Market Cap</option>
+                    <option value="price">Price</option>
+                    <option value="name">Name</option>
+                </select>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Price (USD)</th>
+                        <th>24h Change (%)</th>
+                        <th>Market Cap (USD)</th>
+                        <th>Compare</th>
+                    </tr>
+                </thead>
+                <tbody id="crypto-table-body"></tbody>
+            </table>
+        </section>
+        <!-- Comparison Section -->
+        <section id="comparison">
+            <h2>Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Price (USD)</th>
+                        <th>24h Change (%)</th>
+                        <th>Market Cap (USD)</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="comparison-table-body"></tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Crypto Tracker</p>
+    </footer>
+    <script src="javascript.js"></script>
+</body>
+</html>
