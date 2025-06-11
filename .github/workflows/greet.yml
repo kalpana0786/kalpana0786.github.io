@@ -1,0 +1,60 @@
+name: Greet Contributors
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  create_review_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create issue from PR
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          title: Review PR #${{ github.event.pull_request.number }}
+          content: |
+            A new pull request has been created by ${{ github.event.pull_request.user.login }}.
+            PR Title: ${{ github.event.pull_request.title }}
+            PR Link: ${{ github.event.pull_request.html_url }}
+            Please review and provide feedback.
+          labels: review-needed
+
+  greet_contributor:
+    needs: create_review_issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get a dad joke
+        id: joke
+        uses: mickeygoussetorg/get-a-dad-joke@v1
+
+      - name: Add greeting comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Thank you for the contribution, ${{ github.event.pull_request.user.login }}! 
+            Make sure all CI checks pass and you get someone to review your changes before you merge this PR to main.
+
+            An issue was created to remind the reviewers for this codebase to review this pull request.
+
+            Here's a dad joke: ${{ steps.joke.outputs.joke }}
+
+      - name: Add rocket reaction
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          reactions: rocket
+
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run custom script
+        run: bash scripts/custom-script.sh
